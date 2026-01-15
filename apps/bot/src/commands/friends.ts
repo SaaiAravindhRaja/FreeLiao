@@ -41,7 +41,7 @@ export async function friendsCommand(ctx: BotContext): Promise<void> {
   message += `🔗 Your invite code: ${user?.invite_code || 'N/A'}\n`;
   message += `Share this code with friends to connect!`;
 
-  const buttons = [];
+  const buttons: { text: string; callback_data: string }[][] = [];
 
   if (pendingCount > 0) {
     buttons.push([{ text: `📨 View Requests (${pendingCount})`, callback_data: 'friends:pending' }]);

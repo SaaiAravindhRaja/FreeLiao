@@ -89,7 +89,7 @@ export async function whofreeCommand(ctx: BotContext): Promise<void> {
   }
 
   // Build action buttons
-  const buttons = [];
+  const buttons: { text: string; callback_data: string }[][] = [];
 
   if (freeNow.length > 0) {
     buttons.push([{ text: '☕ Jio for Kopi', callback_data: 'quick_jio:kopi' }]);
@@ -174,7 +174,7 @@ export async function refreshWhofree(ctx: BotContext): Promise<void> {
     message += `⚫ ${offline.length} offline\n`;
   }
 
-  const buttons = [];
+  const buttons: { text: string; callback_data: string }[][] = [];
   if (freeNow.length > 0) {
     buttons.push([{ text: '☕ Jio for Kopi', callback_data: 'quick_jio:kopi' }]);
     buttons.push([{ text: '🍜 Jio for Makan', callback_data: 'quick_jio:makan' }]);

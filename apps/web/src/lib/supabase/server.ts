@@ -2,14 +2,15 @@
  * Supabase client for server components and API routes
  */
 
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import type { Database } from '@freeliao/shared';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
+// Using any for MVP - will use Supabase CLI generated types in production
 export async function createClient() {
   const cookieStore = await cookies();
 
-  return createServerClient<Database>(
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -17,7 +18,7 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: any }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
@@ -35,9 +36,7 @@ export async function createClient() {
  * Create a Supabase client with service role key (for admin operations)
  */
 export function createServiceClient() {
-  const { createClient } = require('@supabase/supabase-js');
-
-  return createClient<Database>(
+  return createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {

@@ -3,11 +3,11 @@
  * Uses service role key for full database access
  */
 
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@freeliao/shared';
+import { createClient, SupabaseClient as SupabaseClientType } from '@supabase/supabase-js';
 import { config } from './config.js';
 
-export const supabase = createClient<Database>(
+// Using any for MVP - will use generated types from Supabase CLI in production
+export const supabase = createClient(
   config.supabase.url,
   config.supabase.serviceRoleKey,
   {
@@ -18,4 +18,4 @@ export const supabase = createClient<Database>(
   }
 );
 
-export type SupabaseClient = typeof supabase;
+export type SupabaseClient = SupabaseClientType;

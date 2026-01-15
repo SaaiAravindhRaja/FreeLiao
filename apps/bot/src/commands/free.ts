@@ -4,7 +4,7 @@
 
 import type { BotContext } from '../types.js';
 import { supabase } from '../supabase.js';
-import { parseTimeInput, formatRelativeTime } from '../utils/time-parser.js';
+import { parseTimeInput } from '../utils/time-parser.js';
 
 export async function freeCommand(ctx: BotContext): Promise<void> {
   if (!ctx.session.userId) {
