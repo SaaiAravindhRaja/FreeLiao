@@ -18,7 +18,7 @@ export async function notifyFriendsOfJio(
 ): Promise<number> {
   // Get creator info
   const { data: creator } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('display_name, telegram_username')
     .eq('id', creatorUserId)
     .single();
@@ -26,7 +26,7 @@ export async function notifyFriendsOfJio(
   if (!creator) return 0;
 
   // Get free friends with their telegram IDs
-  const { data: friends } = await supabase.rpc('get_friends_statuses', {
+  const { data: friends } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: creatorUserId,
   });
 
@@ -41,7 +41,7 @@ export async function notifyFriendsOfJio(
 
   // Get telegram IDs for free friends
   const { data: friendUsers } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('id, telegram_id')
     .in(
       'id',
@@ -82,7 +82,7 @@ export async function notifyFriendsOfJio(
 
   // Store who was invited
   if (notifiedCount > 0) {
-    await supabase.from('jio_invites').insert(
+    await supabase.from('fl_jio_invites').insert(
       friendUsers.map((f) => ({
         jio_id: jio.id,
         user_id: f.id,
@@ -105,7 +105,7 @@ export async function notifyCreatorOfResponse(
 ): Promise<void> {
   // Get jio and creator info
   const { data: jio } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .select('creator_id, title')
     .eq('id', jioId)
     .single();
@@ -114,7 +114,7 @@ export async function notifyCreatorOfResponse(
 
   // Get creator's telegram ID
   const { data: creator } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('telegram_id')
     .eq('id', jio.creator_id)
     .single();
@@ -123,7 +123,7 @@ export async function notifyCreatorOfResponse(
 
   // Get responder info
   const { data: responder } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('display_name')
     .eq('id', responderUserId)
     .single();
@@ -164,7 +164,7 @@ export async function notifyOfFriendRequest(
 ): Promise<void> {
   // Get target user's telegram ID
   const { data: targetUser } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('telegram_id')
     .eq('id', targetUserId)
     .single();
@@ -173,7 +173,7 @@ export async function notifyOfFriendRequest(
 
   // Get requester info
   const { data: requester } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('display_name')
     .eq('id', requesterUserId)
     .single();

@@ -21,7 +21,7 @@ export function QuickActions({ userId }: QuickActionsProps) {
     const expiresAt = new Date(Date.now() + DEFAULT_JIO_EXPIRY_MS);
 
     const { data, error } = await supabase
-      .from('jios')
+      .from('fl_jios')
       .insert({
         creator_id: userId,
         jio_type: type,

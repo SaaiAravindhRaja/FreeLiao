@@ -103,7 +103,7 @@ async function handleInviteMenu(ctx: BotContext): Promise<void> {
 
   // Get user's invite code
   const { data: user } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('invite_code')
     .eq('id', ctx.session.userId)
     .single();

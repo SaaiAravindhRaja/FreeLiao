@@ -13,18 +13,18 @@ export async function friendsCommand(ctx: BotContext): Promise<void> {
 
   // Get user's invite code
   const { data: user } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('invite_code')
     .eq('id', ctx.session.userId)
     .single();
 
   // Get friend count
-  const { data: friends } = await supabase.rpc('get_friends_statuses', {
+  const { data: friends } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: ctx.session.userId,
   });
 
   // Get pending friend requests
-  const { data: pendingRequests } = await supabase.rpc('get_pending_friend_requests', {
+  const { data: pendingRequests } = await supabase.rpc('fl_get_pending_friend_requests', {
     p_user_id: ctx.session.userId,
   });
 
@@ -75,7 +75,7 @@ export async function sendFriendRequest(
 
   // Find user by invite code
   const { data: targetUser } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('id, display_name')
     .eq('invite_code', inviteCode.toLowerCase())
     .single();
@@ -96,7 +96,7 @@ export async function sendFriendRequest(
 
   // Check if already friends or request pending
   const { data: existingFriendship } = await supabase
-    .from('friendships')
+    .from('fl_friendships')
     .select('status')
     .or(
       `and(user_id.eq.${ctx.session.userId},friend_id.eq.${targetUser.id}),` +
@@ -118,7 +118,7 @@ export async function sendFriendRequest(
   }
 
   // Create friend request
-  const { error } = await supabase.from('friendships').insert({
+  const { error } = await supabase.from('fl_friendships').insert({
     user_id: ctx.session.userId,
     friend_id: targetUser.id,
     status: 'pending',
@@ -152,7 +152,7 @@ export async function acceptFriendRequest(
 
   // Update friendship status
   const { data: friendship, error } = await supabase
-    .from('friendships')
+    .from('fl_friendships')
     .update({ status: 'accepted' })
     .eq('id', friendshipId)
     .eq('friend_id', ctx.session.userId)
@@ -167,7 +167,7 @@ export async function acceptFriendRequest(
 
   // Get requester info
   const { data: requester } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('display_name, telegram_id')
     .eq('id', friendship.user_id)
     .single();
@@ -195,7 +195,7 @@ export async function declineFriendRequest(
 
   // Delete the friendship request
   const { error } = await supabase
-    .from('friendships')
+    .from('fl_friendships')
     .delete()
     .eq('id', friendshipId)
     .eq('friend_id', ctx.session.userId)

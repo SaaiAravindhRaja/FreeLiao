@@ -13,7 +13,7 @@ export async function whofreeCommand(ctx: BotContext): Promise<void> {
   }
 
   // Get friends' statuses
-  const { data: friends, error } = await supabase.rpc('get_friends_statuses', {
+  const { data: friends, error } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: ctx.session.userId,
   });
 
@@ -115,7 +115,7 @@ export async function refreshWhofree(ctx: BotContext): Promise<void> {
   }
 
   // Get friends' statuses
-  const { data: friends, error } = await supabase.rpc('get_friends_statuses', {
+  const { data: friends, error } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: ctx.session.userId,
   });
 

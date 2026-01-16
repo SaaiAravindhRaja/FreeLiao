@@ -54,7 +54,7 @@ export async function freeCommand(ctx: BotContext): Promise<void> {
 
   // Update status in database
   const { error } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .upsert(
       {
         user_id: ctx.session.userId,
@@ -76,7 +76,7 @@ export async function freeCommand(ctx: BotContext): Promise<void> {
   }
 
   // Get count of free friends
-  const { data: freeFriends } = await supabase.rpc('get_friends_statuses', {
+  const { data: freeFriends } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: ctx.session.userId,
   });
 
@@ -170,7 +170,7 @@ export async function handleFreeTimeSelection(
 
   // Update status
   const { error } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .upsert(
       {
         user_id: ctx.session.userId,

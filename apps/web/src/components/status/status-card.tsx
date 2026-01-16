@@ -38,7 +38,7 @@ export function StatusCard({ status, userId, onStatusUpdate }: StatusCardProps) 
     const freeUntil = new Date(Date.now() + hours * 60 * 60 * 1000);
 
     const { data, error } = await supabase
-      .from('user_status')
+      .from('fl_user_status')
       .upsert(
         {
           user_id: userId,
@@ -63,7 +63,7 @@ export function StatusCard({ status, userId, onStatusUpdate }: StatusCardProps) 
     setIsUpdating(true);
 
     const { data, error } = await supabase
-      .from('user_status')
+      .from('fl_user_status')
       .upsert(
         {
           user_id: userId,

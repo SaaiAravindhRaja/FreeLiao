@@ -25,7 +25,7 @@ export async function authMiddleware(ctx: BotContext, next: NextFunction): Promi
 
   // Look up user by Telegram ID
   const { data: user } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('id')
     .eq('telegram_id', ctx.from.id)
     .single();

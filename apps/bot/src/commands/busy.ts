@@ -13,7 +13,7 @@ export async function busyCommand(ctx: BotContext): Promise<void> {
 
   // Update status to busy
   const { error } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .upsert(
       {
         user_id: ctx.session.userId,

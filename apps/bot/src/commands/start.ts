@@ -17,7 +17,7 @@ export async function startCommand(ctx: BotContext): Promise<void> {
 
   // Check if user already exists
   const { data: existingUser } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('*')
     .eq('telegram_id', telegramId)
     .single();
@@ -29,7 +29,7 @@ export async function startCommand(ctx: BotContext): Promise<void> {
     // Update username if changed
     if (existingUser.telegram_username !== telegramUsername) {
       await supabase
-        .from('users')
+        .from('fl_users')
         .update({ telegram_username: telegramUsername })
         .eq('id', existingUser.id);
     }
@@ -57,7 +57,7 @@ export async function startCommand(ctx: BotContext): Promise<void> {
 
   // New user - create account
   const { data: newUser, error } = await supabase
-    .from('users')
+    .from('fl_users')
     .insert({
       telegram_id: telegramId,
       telegram_username: telegramUsername,
@@ -76,7 +76,7 @@ export async function startCommand(ctx: BotContext): Promise<void> {
   ctx.session.userId = newUser.id;
 
   // Create initial offline status
-  await supabase.from('user_status').insert({
+  await supabase.from('fl_user_status').insert({
     user_id: newUser.id,
     status_type: 'offline',
   });

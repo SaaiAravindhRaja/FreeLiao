@@ -92,7 +92,7 @@ async function createQuickJio(ctx: BotContext, type: JioType): Promise<void> {
 
   // Create the jio
   const { data: jio, error } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .insert({
       creator_id: ctx.session.userId,
       jio_type: type,
@@ -163,7 +163,7 @@ export async function handleJioTypeSelection(
 
   // Create the jio
   const { data: jio, error } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .insert({
       creator_id: ctx.session.userId,
       jio_type: jioType,
@@ -221,7 +221,7 @@ export async function handleJioLocationSelection(
 
   // Create the jio
   const { data: jio, error } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .insert({
       creator_id: ctx.session.userId,
       jio_type: type,

@@ -24,7 +24,7 @@ export async function handleJioResponse(ctx: BotContext): Promise<void> {
 
   // Check if jio is still active
   const { data: jio } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .select('status, creator_id, title')
     .eq('id', jioId)
     .single();
@@ -35,7 +35,7 @@ export async function handleJioResponse(ctx: BotContext): Promise<void> {
   }
 
   // Record response
-  const { error } = await supabase.from('jio_responses').upsert(
+  const { error } = await supabase.from('fl_jio_responses').upsert(
     {
       jio_id: jioId,
       user_id: ctx.session.userId,

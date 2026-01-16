@@ -17,13 +17,13 @@ export async function GET(request: NextRequest) {
     const supabase = createServiceClient();
 
     // Expire old statuses
-    const { error: statusError } = await supabase.rpc('expire_old_statuses');
+    const { error: statusError } = await supabase.rpc('fl_expire_old_statuses');
     if (statusError) {
       console.error('Error expiring statuses:', statusError);
     }
 
     // Expire old jios
-    const { error: jioError } = await supabase.rpc('expire_old_jios');
+    const { error: jioError } = await supabase.rpc('fl_expire_old_jios');
     if (jioError) {
       console.error('Error expiring jios:', jioError);
     }

@@ -55,7 +55,7 @@ function JioCard({ jio, userId }: { jio: JioData; userId: string }) {
   const handleRespond = async (response: JioResponseType) => {
     setIsResponding(true);
 
-    const { error } = await supabase.from('jio_responses').upsert(
+    const { error } = await supabase.from('fl_jio_responses').upsert(
       {
         jio_id: jio.jio_id,
         user_id: userId,

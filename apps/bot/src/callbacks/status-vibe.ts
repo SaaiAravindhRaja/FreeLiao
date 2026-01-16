@@ -48,7 +48,7 @@ export async function handleVibeSelect(ctx: BotContext): Promise<void> {
 
   // Update status with vibe
   const { error } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .update({
       vibe_text: vibeText,
       updated_at: new Date().toISOString(),
@@ -91,7 +91,7 @@ export async function handleCustomVibe(ctx: BotContext, vibeText: string): Promi
 
   // Update status with custom vibe
   const { error } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .update({
       vibe_text: cleanedVibe,
       updated_at: new Date().toISOString(),

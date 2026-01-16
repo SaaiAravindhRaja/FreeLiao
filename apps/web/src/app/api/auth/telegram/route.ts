@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     // Find or create user
     let { data: user, error: findError } = await supabase
-      .from('users')
+      .from('fl_users')
       .select('*')
       .eq('telegram_id', data.id)
       .single();
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       // Create new user
       const { data: newUser, error: createError } = await supabase
-        .from('users')
+        .from('fl_users')
         .insert({
           telegram_id: data.id,
           telegram_username: data.username,
@@ -101,14 +101,14 @@ export async function POST(request: NextRequest) {
       user = newUser;
 
       // Create initial offline status
-      await supabase.from('user_status').insert({
+      await supabase.from('fl_user_status').insert({
         user_id: user.id,
         status_type: 'offline',
       });
     } else {
       // Update existing user info
       const { error: updateError } = await supabase
-        .from('users')
+        .from('fl_users')
         .update({
           telegram_username: data.username,
           display_name: displayName,

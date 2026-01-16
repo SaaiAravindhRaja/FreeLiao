@@ -15,7 +15,7 @@ export default async function FeedPage() {
 
   // Get user info
   const { data: user } = await supabase
-    .from('users')
+    .from('fl_users')
     .select('*')
     .eq('id', userId)
     .single();
@@ -26,18 +26,18 @@ export default async function FeedPage() {
 
   // Get user's current status
   const { data: status } = await supabase
-    .from('user_status')
+    .from('fl_user_status')
     .select('*')
     .eq('user_id', userId)
     .single();
 
   // Get friends' statuses
-  const { data: friendStatuses } = await supabase.rpc('get_friends_statuses', {
+  const { data: friendStatuses } = await supabase.rpc('fl_get_friends_statuses', {
     p_user_id: userId,
   });
 
   // Get active jios
-  const { data: jios } = await supabase.rpc('get_visible_jios', {
+  const { data: jios } = await supabase.rpc('fl_get_visible_jios', {
     p_user_id: userId,
   });
 

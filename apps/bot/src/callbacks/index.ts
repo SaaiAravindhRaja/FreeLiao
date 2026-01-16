@@ -93,7 +93,7 @@ async function handleCancelJio(ctx: BotContext, jioId: string): Promise<void> {
 
   // Update jio status to cancelled
   const { error } = await supabase
-    .from('jios')
+    .from('fl_jios')
     .update({ status: 'cancelled' })
     .eq('id', jioId)
     .eq('creator_id', ctx.session.userId);
@@ -117,8 +117,8 @@ async function handleViewResponses(ctx: BotContext, jioId: string): Promise<void
 
   // Get responses for this jio
   const { data: responses } = await supabase
-    .from('jio_responses')
-    .select('response, user:users(display_name)')
+    .from('fl_jio_responses')
+    .select('response, user:fl_users(display_name)')
     .eq('jio_id', jioId);
 
   if (!responses || responses.length === 0) {
